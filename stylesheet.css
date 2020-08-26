@@ -1,4 +1,4 @@
-html {
+/* html {
   -webkit-touch-callout:none;
 -webkit-user-select:none;
 -khtml-user-select:none;
@@ -41,7 +41,7 @@ transform: translate(-50%, -50%);
   font-size: 1.7vmax;
   height: 5vmax;
   touch-action: none;
-}
+} */
 
 
 .startBtn {
@@ -55,7 +55,7 @@ transform: translate(-50%, -50%);
   font-weight: 900;
   text-align: center;
   background-color: transparent;
-  color: white;
+  color: black;
   border-color: white;
   border-width: 3px;
 
@@ -70,9 +70,9 @@ transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   box-shadow: 0px 0px 3px white;
 }
-
+/*
 .box {
   border-width: 0;
   border-color: rgb(200, 200, 200);
   border-radius: 0.7vmax;
-}
+} */
