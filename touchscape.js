@@ -176,37 +176,37 @@ function touchstop(ev) {
 
 
 
-function moved(ev) {
-  if (!isMousedown) return;
-  ev.preventDefault();
-
-  if (introComplete === 1) {
-
-    //DATA
-    // pressure = getPressure(ev);
-    // pointStore.push({
-    //   time: new Date().getTime(),
-    //   x: rakeX,
-    //   y: rakeY,
-    //   pressure: pressure
-    // });
-
-    dx = mouseX - x;
-    dy = mouseY - y;
-
-    angle1 = atan2(dy, dx);
-    x = (mouseX) - cos(angle1) * dragLength;
-    x2 = (100) - cos(PI/2) * 1;
-    y = (mouseY) - sin(angle1) * dragLength;
-    y2 = (100) - sin(PI/2) * 1;
-
-    makeArray(x, y, x2, y2, angle1);
-    display();
-
-  }
-
-return false;
-}
+// function moved(ev) {
+//   if (!isMousedown) return;
+//   ev.preventDefault();
+//
+//   if (introComplete === 1) {
+//
+//     //DATA
+//     // pressure = getPressure(ev);
+//     // pointStore.push({
+//     //   time: new Date().getTime(),
+//     //   x: rakeX,
+//     //   y: rakeY,
+//     //   pressure: pressure
+//     // });
+//
+//     dx = mouseX - x;
+//     dy = mouseY - y;
+//
+//     angle1 = atan2(dy, dx);
+//     x = (mouseX) - cos(angle1) * dragLength;
+//     x2 = (100) - cos(PI/2) * 1;
+//     y = (mouseY) - sin(angle1) * dragLength;
+//     y2 = (100) - sin(PI/2) * 1;
+//
+//     makeArray(x, y, x2, y2, angle1);
+//     display();
+//
+//   }
+//
+// return false;
+// }
 
 function makeArray(x, y, x2, y2, angle) {
 
