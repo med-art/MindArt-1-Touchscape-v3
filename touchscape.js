@@ -91,7 +91,7 @@ function setup() {
 
       var stbtn = $("<div />").appendTo("body");
       stbtn.addClass('startBtn');
-      $('<p>test</p>').appendTo(stbtn);
+      $('<p>Start Here</p>').appendTo(stbtn);
       $(".startBtn").mousedown(start);
 
       // document.getElementById("button").onclick = function() {start()};
