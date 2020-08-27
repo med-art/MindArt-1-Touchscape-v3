@@ -92,7 +92,9 @@ function setup() {
       var stbtn = $("<div />").appendTo("body");
       stbtn.addClass('startBtn');
       $('<p>Start Here</p>').appendTo(stbtn);
-      $(".startBtn").mousedown(start);
+
+      // stbtn.addEventListener('touchstart', start());
+      stbtn.mousedown(start);
 
       // document.getElementById("button").onclick = function() {start()};
 
