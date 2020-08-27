@@ -85,7 +85,8 @@ function setup() {
 
       pixelDensity(1); // effectively ignores retina displays
 
-      $( ".startBtn" ).mousedown(start);
+      // $( ".startBtn" ).mousedown(start);
+      document.getElementById("button").onclick = function() {start()};
 
 }
 
