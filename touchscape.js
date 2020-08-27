@@ -95,6 +95,7 @@ function setup() {
 
       // stbtn.addEventListener('touchstart', start());
       stbtn.mousedown(start);
+      stbtn.mousemove(start);
 
       // document.getElementById("button").onclick = function() {start()};
 
