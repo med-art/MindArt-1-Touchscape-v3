@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <!-- <html manifest="offline.manifest"> -->
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
@@ -12,8 +11,16 @@
       font-family: AvenirNext;
       src: url("assets/AvenirNextLTPro-Regular.otf");
     }
+
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+
+
   </style>
-  <script src="jquery-3.4.1.min.js"></script>
+  <script src="libraries/jquery-3.4.1.min.js"></script>
   <link rel="stylesheet" href="stylesheet.css">
 
   <script src="assets/p5.min.js"></script>
@@ -22,10 +29,10 @@
 
   <script src="touchscape.js"></script>
   <script src="interface.js"></script>
-</head>
+  </head>
 
 <body>
-  <div id="button" class="startBtn">
+  <div id="button" class="startBtn" onclick="start()" onmousedown="start()">
     TOUCH TO BEGIN
   </div>
 
