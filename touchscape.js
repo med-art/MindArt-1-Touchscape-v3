@@ -66,6 +66,8 @@ function preload() {
 }
 
 function setup() {
+
+
   createCanvas(window.innerWidth, window.innerHeight);
 // NOTE: UInsure if these should be in setup, or declared globally an put into restart
      fg = createGraphics(width, height);
@@ -86,7 +88,13 @@ function setup() {
       pixelDensity(1); // effectively ignores retina displays
 
       // $( ".startBtn" ).mousedown(start);
-      document.getElementById("button").onclick = function() {start()};
+
+      var stbtn = $("<div />").appendTo("body");
+      stbtn.addClass('startBtn');
+      $('<p>test</p>').appendTo(stbtn);
+      $(".startBtn").click(start);
+
+      // document.getElementById("button").onclick = function() {start()};
 
 }
 
