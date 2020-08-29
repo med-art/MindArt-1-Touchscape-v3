@@ -13,8 +13,13 @@ function writeTextUI() {
 
   // TODO: REMOVE ELEMENTS
 
+$(".interface").remove();
+$(".select").remove();
+
+
   for (let i = 0; i < 4; i++) {
     buttons[i] = createImg('assets/icon' + (1 + i) + '.png');
+    buttons[i].class("interface");
     buttons[i].style('width', '13vMax');
     buttons[i].mousePressed(function() {
       rake(i);
@@ -23,6 +28,7 @@ function writeTextUI() {
   }
 
   selector = createImg('assets/selector.png');
+  selector.class("interface");
   selector.style('width', '13vMax');
   selector.position(vMax * 11, windowHeight - vMax * 13);
 
