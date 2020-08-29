@@ -287,9 +287,9 @@ function sizeWindow() {
 
     if (window.orientation < storedOrientationDegrees) {
       direction = 1;
-    } else(
+    } else {
       direction = -1;
-    )
+    }
 
     if (abs(window.orientation - storedOrientationDegrees) == 270){
       direction = -direction;
