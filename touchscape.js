@@ -286,6 +286,11 @@ function sizeWindow() {
   //bLayer.tint(255, 190);
   driftX = width / 2;
   driftY = 0;
+  
+  window.addEventListener("orientationchange", function() {
+    alert(window.orientation);
+  }, false);
+
 }
 
 function stretchWindow() {
@@ -321,7 +326,7 @@ function rotateWindow() {
   pLayer.resizeCanvas(windowWidth, windowHeight);
   pLayer = newpLayer;
 
-
+  // TODO: properly detect the orientation
   rotateDirection = rotateDirection * -1;
 }
 
