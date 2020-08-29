@@ -285,15 +285,21 @@ function sizeWindow() {
     stretchWindow();
   } else {
 
-    if (window.orientation < storedOrientationDegrees){
-      rotateWindow(1);
-    } else (rotateWindow(-1));
+    if (window.orientation < storedOrientationDegrees) {
+      direction = 1;
+    } else(
+      direction = -1;
+    )
+
+    if (abs(window.orientation - storedOrientationDegrees) == 270){
+      direction = -direction;
+    }
+
+    rotateWindow(direction);
 
 
     storedOrientationDegrees = window.orientation;
-    if (storedOrientationDegrees >= 360){
-      storedOrientationDegrees = 0;
-    }
+
 
 
   }
@@ -351,8 +357,8 @@ function rotateWindow(direction) {
 //startSimulation and pauseSimulation defined elsewhere
 function handleVisibilityChange() {
   if (document.hidden) {
-  audio.stop();
-  } else  {
+    audio.stop();
+  } else {
     audio.loop(1);
   }
 }
