@@ -283,8 +283,8 @@ function sizeWindow() {
   } else {
 
     if (window.orientation < storedOrientationDegrees){
-      rotateWindow(-1);
-    } else (rotateWindow(1));
+      rotateWindow(1);
+    } else (rotateWindow(-1));
 
     storedOrientationDegrees = window.orientation;
 
