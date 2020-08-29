@@ -11,6 +11,8 @@ function calcDimensions() {
 
 function writeTextUI() {
 
+  // TODO: REMOVE ELEMENTS
+
   for (let i = 0; i < 4; i++) {
     buttons[i] = createImg('assets/icon' + (1 + i) + '.png');
     buttons[i].style('width', '13vMax');

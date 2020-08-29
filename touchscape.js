@@ -259,7 +259,7 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   sizeWindow();
 
-  removeElements();
+  // removeElements();
   writeTextUI();
   display();
 }
@@ -324,3 +324,14 @@ function rotateWindow() {
 
   rotateDirection = rotateDirection * -1;
 }
+
+//startSimulation and pauseSimulation defined elsewhere
+function handleVisibilityChange() {
+  if (document.hidden) {
+  audio.stop();
+  } else  {
+    audio.loop(1);
+  }
+}
+
+document.addEventListener("visibilitychange", handleVisibilityChange, false);
