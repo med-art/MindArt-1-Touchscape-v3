@@ -1,20 +1,13 @@
 // orientation and direction for resizing the image
 let storedOrientation, currentOrientation, rotateDirection = -1;
 
-// declare all brush variables
-let inverter = 1,
-driftX, driftY;
-
 // mouse Tracking
 let isMousedown = 0;
-let vMax, selector;
+let vMax;
 let introText = ["Touch and Listen", "Look", "Draw"];
 let appCol = "#469ede"; // 70, 158, 222
-let slide = 4; // current app is starting at 4 to prevent any behaviour before first button press.
-let delayTime = 12000; // this is the for each slide change
-let introComplete = 0;
 
-//DATA
+//data storage - not currently in use
 let pointStore;
 let lineStore;
 
@@ -25,16 +18,14 @@ var x = 100,
   px = [],
   py = [],
   pA = [];
-  angle1 = 0.0,
+angle1 = 0.0,
   dragLength = 30;
 
 var r = 0;
 var qtyOfLines = 40;
 var brushWidth = 200;
-var strokeW = (brushWidth/qtyOfLines);
+var strokeW = (brushWidth / qtyOfLines);
 var opacity = 200;
-
-
 
 var gui_img = [];
 var pebble = [];
@@ -49,7 +40,6 @@ function preload() {
   background = loadImage('assets/sand_01.jpg');
   audio = loadSound('assets/audio_01.mp3');
   click = loadSound('assets/click.mp3');
-
   for (let i = 1; i < 3; i++) {
     gui_img[i] = loadImage('assets/gui' + i + '.png');
   }
@@ -57,74 +47,63 @@ function preload() {
   for (let i = 1; i < 8; i++) {
     pebble[i] = loadImage('assets/wpebble' + i + '.png');
   }
-
   //Load all pebble shadow assets
   for (let i = 1; i < 8; i++) {
     pebbleu[i] = loadImage('assets/wpebbleu' + i + '.png');
   }
-
 }
 
 function setup() {
 
-
   createCanvas(window.innerWidth, window.innerHeight);
-// NOTE: UInsure if these should be in setup, or declared globally an put into restart
-     fg = createGraphics(width, height);
-      pLayer= createGraphics(width, height);
-      textLayer = createGraphics(width, height);
-      introLayer = createGraphics(width, height);
+  // NOTE: UInsure if these should be in setup, or declared globally an put into restart
+  fg = createGraphics(width, height);
+  pLayer = createGraphics(width, height);
+  textLayer = createGraphics(width, height);
+  introLayer = createGraphics(width, height);
 
-      fg.strokeWeight(strokeW);
-      fg.noFill();
-      fg.stroke(20, 100);
+  fg.strokeWeight(strokeW);
+  fg.noFill();
+  fg.stroke(20, 100);
 
-      colorMode(HSB, 360, 100, 100, 1.0);
+  colorMode(HSB, 360, 100, 100, 1.0);
 
-      introLayer.fill(255, 30);
-      introLayer.blendMode(BLEND);
-      introLayer.noStroke();
+  introLayer.fill(255, 30);
+  introLayer.blendMode(BLEND);
+  introLayer.noStroke();
 
-      pixelDensity(1); // effectively ignores retina displays
+  pixelDensity(1); // effectively ignores retina displays
 
-      // $( ".startBtn" ).mousedown(start);
+  var stbtn = $("<div />").appendTo("body");
+  stbtn.addClass('startBtn');
+  $('<p>Touch Here</p>').appendTo(stbtn);
+  stbtn.mousedown(start);
+  stbtn.mousemove(start);
 
-      var stbtn = $("<div />").appendTo("body");
-      stbtn.addClass('startBtn');
-      $('<p>Start Here</p>').appendTo(stbtn);
-
-      // stbtn.addEventListener('touchstart', start());
-      stbtn.mousedown(start);
-      stbtn.mousemove(start);
-
-      // document.getElementById("button").onclick = function() {start()};
 
 }
 
 function start() {
-
-// NOTE: what is redraw();
-
-$(".startBtn").remove();
-fullscreen(1);
-
-click.play();
-if (audio.isPlaying()) {} else {
-  audio.loop(1);
-}
-
-
+  // NOTE: what is redraw();
+  $(".startBtn").remove();
+  fullscreen(1);
+  click.play();
+  if (audio.isPlaying()) {} else {
+    audio.loop(1);
+  }
   change();
-
-
-
-
-
 
   calcDimensions();
   sizeWindow();
-  slide = 0;
-  slideShow();
+
+  textLayer.clear();
+  introComplete = 1;
+  sizeWindow();
+  writeTextUI();
+  rake(1);
+  reset();
+  counter = 0;
+
 
   // all event listeners
   canvas.addEventListener('touchmove', moved);
@@ -142,98 +121,63 @@ if (audio.isPlaying()) {} else {
 
 }
 
-function draw() {
-
-}
-
-  function change(qty, width, opac) {
-    qtyOfLines = qty;
-    brushWidth = width;
-    opacity = opac;
-
-    vec = [];
-
-    for (i = 0; i < qtyOfLines; i++) {
-      vec[i] = [];
-    }
-
-    strokeW = ceil(brushWidth/qtyOfLines);
-     fg.strokeWeight(strokeW);
+function change(qty, width, opac) {
+  qtyOfLines = qty;
+  brushWidth = width;
+  opacity = opac;
+  vec = [];
+  for (i = 0; i < qtyOfLines; i++) {
+    vec[i] = [];
   }
-
-
+  strokeW = ceil(brushWidth / qtyOfLines);
+  fg.strokeWeight(strokeW);
+}
 
 function touchdown(ev) {
   isMousedown = 1;
-
-  if (slide === 0) {
-    startUp();
-  }
   return false;
 }
 
 function touchstop(ev) {
   isMousedown = 0;
-
-  //DATA
-  // if (introComplete === 1) {
-  //   lineStore.push(pointStore);
-  //   pointStore = [];
-  // }
-
-  // empty array
   for (i = 0; i < qtyOfLines; i++) {
     vec[i] = [];
   }
-
 }
-
-
 
 function moved(ev) {
   if (!isMousedown) return;
   ev.preventDefault();
 
-  if (introComplete === 1) {
+  dx = mouseX - x;
+  dy = mouseY - y;
 
-    //DATA
-    // pressure = getPressure(ev);
-    // pointStore.push({
-    //   time: new Date().getTime(),
-    //   x: rakeX,
-    //   y: rakeY,
-    //   pressure: pressure
-    // });
+  angle1 = atan2(dy, dx);
+  x = (mouseX) - cos(angle1) * dragLength;
+  x2 = (100) - cos(PI / 2) * 1;
+  y = (mouseY) - sin(angle1) * dragLength;
+  y2 = (100) - sin(PI / 2) * 1;
 
-    dx = mouseX - x;
-    dy = mouseY - y;
+  makeArray(x, y, x2, y2, angle1);
+  display();
 
-    angle1 = atan2(dy, dx);
-    x = (mouseX) - cos(angle1) * dragLength;
-    x2 = (100) - cos(PI/2) * 1;
-    y = (mouseY) - sin(angle1) * dragLength;
-    y2 = (100) - sin(PI/2) * 1;
 
-    makeArray(x, y, x2, y2, angle1);
-    display();
 
-  }
-
-return false;
+  return false;
 }
 
 function makeArray(x, y, x2, y2, angle) {
 
   var a = createVector(x, y);
-  var b = createVector(0, brushWidth/2);
+  var b = createVector(0, brushWidth / 2);
   b.rotate(angle);
   var c = p5.Vector.add(a, b);
   a.sub(b);
 
   for (var i = 0; i < qtyOfLines; i++) {
     // cool
-        // d = p5.Vector.lerp(a, c, (i/qtyOfLines)*random(0,1));
-    d = p5.Vector.lerp(a, c, (i/(qtyOfLines+1))+random(0,(1/qtyOfLines)*0.2));
+    // d = p5.Vector.lerp(a, c, (i/qtyOfLines)*random(0,1));
+    d = p5.Vector.lerp(a, c, (i / (qtyOfLines + 1)) + random(0, (1 / qtyOfLines) * 0.2));
     point(d.x, d.y);
 
     vec[i].push(d);
@@ -242,44 +186,42 @@ function makeArray(x, y, x2, y2, angle) {
 
 function display() {
   var bool = 0;
-  if (vec[0].length > 1){
+  if (vec[0].length > 1) {
     for (var i = 0; i < vec.length; i++) {
-      if (i === 0 || i === vec.length-1 || (i % 3) === 2){  // if first line, last line or every 3rd line, then thin, else fat
-         fg.strokeWeight(strokeW/2);
+      if (i === 0 || i === vec.length - 1 || (i % 3) === 2) { // if first line, last line or every 3rd line, then thin, else fat
+        fg.strokeWeight(strokeW / 2);
       } else {
-         fg.strokeWeight(strokeW);
+        fg.strokeWeight(strokeW);
       }
 
-    var n = vec[i];
-    if (i % 3 === 0){
-          fg.stroke(40);
-    } else if (i % 3 === 1){
-            fg.stroke(200);
-      } else if (i % 3 === 2){
-              fg.stroke(0);
-        }
+      var n = vec[i];
+      if (i % 3 === 0) {
+        fg.stroke(40);
+      } else if (i % 3 === 1) {
+        fg.stroke(200);
+      } else if (i % 3 === 2) {
+        fg.stroke(0);
+      }
 
-    if (eraseActive){
-      fg.noStroke();
-      fg.fill(127,80);
-    fg.ellipse(mouseX,mouseY,vMax*13,vMax*13);
-    }
-
-    else {
+      if (eraseActive) {
+        fg.noStroke();
+        fg.fill(127, 80);
+        fg.ellipse(mouseX, mouseY, vMax * 13, vMax * 13);
+      } else {
 
 
-    bool++;
-      fg.line(n[n.length-1].x, n[n.length-1].y, n[n.length-2].x, n[n.length-2].y);
+        bool++;
+        fg.line(n[n.length - 1].x, n[n.length - 1].y, n[n.length - 2].x, n[n.length - 2].y);
+      }
     }
   }
-}
- blendMode(BLEND);
+  blendMode(BLEND);
   image(background, 0, 0, width, height);
   blendMode(OVERLAY);
 
   image(fg, 0, 0, width, height);
-   blendMode(BLEND);
-   noTint();
+  blendMode(BLEND);
+  noTint();
   image(pLayer, 0, 0, width, height);
 }
 
@@ -288,9 +230,9 @@ function display() {
 function resetTimeout() {
   setTimeout(reset, 50);
 
-getPressure = function (ev) {
-  return ((ev.touches && ev.touches[0] && typeof ev.touches[0]["force"] !== "undefined") ? ev.touches[0]["force"] : 1.0);
-}
+  getPressure = function(ev) {
+    return ((ev.touches && ev.touches[0] && typeof ev.touches[0]["force"] !== "undefined") ? ev.touches[0]["force"] : 1.0);
+  }
 }
 
 function reset() {
@@ -313,16 +255,16 @@ function reset() {
     pLayer.image(pebble[tempID[k]], tempX[k], tempY[k], randomScalar[k], randomScalar[k]);
   }
 
-    display();
+  display();
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   sizeWindow();
 
-    removeElements();
-    writeTextUI();
-
+  removeElements();
+  writeTextUI();
+  display();
 }
 
 

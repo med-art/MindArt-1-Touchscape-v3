@@ -1,5 +1,5 @@
-let button1, button2, button3, button4, resetButton, saveButton, fsButton;
-let fsBool = 0;
+let resetButton, saveButton, fsButton;
+let buttons = [];
 
 function calcDimensions() {
   if (width > height) {
@@ -10,41 +10,15 @@ function calcDimensions() {
 }
 
 function writeTextUI() {
-  col = color(0, 0, 0, 0.1);
-  colSelect = color(0, 0, 0, 1);
-  colH2 = color(230, 20, 74);
-  colH3 = color(355, 87, 74);
-  textSize(vMax * 2);
-  fill(0);
-  noStroke();
 
-  col = color(0, 0, 0, 0.1);
-  colSelect = color(0, 0, 0, 1);
-  colH2 = color(230, 20, 74);
-  colH3 = color(355, 87, 74);
-  textSize(vMax*50);
-  fill(0);
-  noStroke();
-
-  button1 = createImg('assets/icon1-0_eng.png');
-  button1.style('width', '13vMax');
-  button1.mousePressed(rake1);
-  button1.position(0, windowHeight - vMax * 13);
-
-  button2 = createImg('assets/icon2-0.png');
-  button2.style('width', '13vMax');
-  button2.mousePressed(rake2);
-  button2.position(vMax * 11, windowHeight - vMax * 13);
-
-  button3 = createImg('assets/icon3-0.png');
-  button3.style('width', '13vMax');
-  button3.mousePressed(rake3);
-  button3.position(vMax * 22, windowHeight - vMax * 13);
-
-  button4 = createImg('assets/icon4-0.png');
-  button4.style('width', '13vMax');
-  button4.mousePressed(rake4);
-  button4.position(vMax * 33, windowHeight - vMax * 13);
+  for (let i = 0; i < 4; i++) {
+    buttons[i] = createImg('assets/icon' + (1 + i) + '.png');
+    buttons[i].style('width', '13vMax');
+    buttons[i].mousePressed(function() {
+      rake(i);
+    });
+    buttons[i].position(vMax * (11 * i), windowHeight - vMax * 13);
+  }
 
   selector = createImg('assets/selector.png');
   selector.style('width', '13vMax');
@@ -65,56 +39,29 @@ function writeTextUI() {
 
 
 }
-// // this is currently under the main sketch
-// function switchSound() {
-//   if (audio.isPlaying()) {
-//     audio.stop();
-//   } else {
-//     audio.loop();
-//   }
-//   return false; // is this needed
-// }
 
-function slideShow() {
+function rake(version) {
 
-    textLayer.clear();
-    introComplete = 1;
-    sizeWindow();
-    writeTextUI();
-    rake2();
-    reset();
-    counter = 0;
-
-}
-
-
-
-
-
-function rake1() {
-  change(1,200,1);
-  eraseActive = 1;
-  selector.position(0, windowHeight - vMax * 13);
-  click.play();
-}
-function rake2() {
-  change(5,60,100);
+  if (version == 0) {
+    change(1, 200, 1);
+    eraseActive = 1;
+  }
+  if (version == 1) {
+    change(5, 60, 100);
     eraseActive = 0;
-  selector.position(vMax * 11, windowHeight - vMax * 13);
-  click.play();
-}
-function rake3() {
-  change(15,100,100);
+  }
+  if (version == 2) {
+    change(15, 100, 100);
     eraseActive = 0;
-  selector.position(vMax * 22, windowHeight - vMax * 13);
-  click.play();
-}
-function rake4() {
-  change(60,150,100);
+  }
+  if (version == 3) {
+    change(60, 150, 100);
     eraseActive = 0;
-  selector.position(vMax * 33, windowHeight - vMax * 13);
+  }
+  selector.position(vMax*(version*11), windowHeight - vMax * 13);
   click.play();
 }
+
 function saveImg() {
   click.play();
   save('touchscape' + month() + day() + hour() + second() + '.jpg');
