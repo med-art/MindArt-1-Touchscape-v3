@@ -289,7 +289,7 @@ function sizeWindow() {
 
     storedOrientationDegrees = window.orientation;
     if (storedOrientationDegrees >= 360){
-      storedOrientationDegrees == 0;
+      storedOrientationDegrees = 0;
     }
 
 
