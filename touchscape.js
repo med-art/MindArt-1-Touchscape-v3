@@ -293,6 +293,11 @@ function stretchWindow() {
   newfg.image(fg, 0, 0, windowWidth, windowHeight);
   fg.resizeCanvas(windowWidth, windowHeight);
   fg = newfg;
+
+  var newpLayer = createGraphics(windowWidth, windowHeight);
+  newpLayer.image(pLayer, 0, 0, windowWidth, windowHeight);
+  pLayer.resizeCanvas(windowWidth, windowHeight);
+  pLayer = newpLayer;
 }
 
 function rotateWindow() {
@@ -305,5 +310,17 @@ function rotateWindow() {
   newfg.pop()
   fg.resizeCanvas(windowWidth, windowHeight);
   fg = newfg;
+
+  var newpLayer = createGraphics(windowWidth, windowHeight);
+  newpLayer.push();
+  newpLayer.translate(width / 2, height / 2);
+  newpLayer.rotate((PI / 2) * rotateDirection);
+  newpLayer.translate(-height / 2, -width / 2);
+  newpLayer.image(pLayer, 0, 0, windowHeight, windowWidth);
+  newpLayer.pop()
+  pLayer.resizeCanvas(windowWidth, windowHeight);
+  pLayer = newpLayer;
+
+
   rotateDirection = rotateDirection * -1;
 }
