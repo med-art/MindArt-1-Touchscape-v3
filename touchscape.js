@@ -29,7 +29,7 @@ var opacity = 200;
 
 var gui_img = [];
 var pebble = [];
-var pebbleu = [];
+
 var randomScalar = [];
 var tempID = [];
 var tempX = [];
@@ -47,10 +47,7 @@ function preload() {
   for (let i = 1; i < 8; i++) {
     pebble[i] = loadImage('assets/wpebble' + i + '.png');
   }
-  //Load all pebble shadow assets
-  for (let i = 1; i < 8; i++) {
-    pebbleu[i] = loadImage('assets/wpebbleu' + i + '.png');
-  }
+
 }
 
 function setup() {
