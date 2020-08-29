@@ -35,6 +35,8 @@ var tempID = [];
 var tempX = [];
 var tempY = [];
 
+var storedOrientationDegrees = 0;
+
 function preload() {
   //load all brush assets and background
   background = loadImage('assets/sand_01.jpg');
@@ -76,6 +78,8 @@ function setup() {
   $('<p>Touch Here</p>').appendTo(stbtn);
   stbtn.mousedown(start);
   stbtn.mousemove(start);
+
+
 
 
 }
@@ -277,7 +281,14 @@ function sizeWindow() {
   if (currentOrientation === storedOrientation) {
     stretchWindow();
   } else {
-    rotateWindow();
+
+    if (window.orientation < storedOrientationDegrees){
+      rotateWindow(-1);
+    } else (rotateWindow(1));
+
+    storedOrientationDegrees = window.orientation;
+
+
   }
   storedOrientation = currentOrientation;
   segLength = width / 15;
@@ -286,12 +297,12 @@ function sizeWindow() {
   //bLayer.tint(255, 190);
   driftX = width / 2;
   driftY = 0;
-  
-  window.addEventListener("orientationchange", function() {
-    alert(window.orientation);
-  }, false);
+
+
 
 }
+
+
 
 function stretchWindow() {
   var newfg = createGraphics(windowWidth, windowHeight);
@@ -305,11 +316,11 @@ function stretchWindow() {
   pLayer = newpLayer;
 }
 
-function rotateWindow() {
+function rotateWindow(direction) {
   var newfg = createGraphics(windowWidth, windowHeight);
   newfg.push();
   newfg.translate(width / 2, height / 2);
-  newfg.rotate((PI / 2) * rotateDirection);
+  newfg.rotate((PI / 2) * direction);
   newfg.translate(-height / 2, -width / 2);
   newfg.image(fg, 0, 0, windowHeight, windowWidth);
   newfg.pop()
@@ -319,7 +330,7 @@ function rotateWindow() {
   var newpLayer = createGraphics(windowWidth, windowHeight);
   newpLayer.push();
   newpLayer.translate(width / 2, height / 2);
-  newpLayer.rotate((PI / 2) * rotateDirection);
+  newpLayer.rotate((PI / 2) * direction);
   newpLayer.translate(-height / 2, -width / 2);
   newpLayer.image(pLayer, 0, 0, windowHeight, windowWidth);
   newpLayer.pop()
